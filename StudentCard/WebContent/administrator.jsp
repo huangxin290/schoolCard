@@ -20,13 +20,15 @@
 身份：${sessionScope.person.identity }
 <br/><br/>
 
+<a href="QueryAllPersonServlet">查看所有用户</a>
+<br/>
 <a href="addPerson.jsp">添加用户</a>
 <br/>
 <a href="deletePerson.jsp">注销用户</a>
 <br/>
-<a href="">更改密码</a>
+<a href="changeInfo.jsp">更改密码</a>
 <br/>
-<a href="">查询所有消费记录</a>
+<a href="QueryAllRecordServlet">查询所有消费记录</a>
 <br/>
 <a href="">查询所有挂失，激活记录</a>
 <br/>

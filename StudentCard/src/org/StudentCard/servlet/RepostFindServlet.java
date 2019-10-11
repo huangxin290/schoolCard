@@ -8,36 +8,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.StudentCard.entity.Person;
-import org.StudentCard.service.IPersonService;
-import org.StudentCard.service.impl.PersonServiceImpl;
 
-/**
- * Servlet implementation class deleteStudentServlet
- */
-@WebServlet("/DeletePersonServlet")
-public class DeletePersonServlet extends HttpServlet implements BasicServlet{
+@WebServlet("/RepostFindServlet")
+public class RepostFindServlet extends HttpServlet implements BasicServlet{
 	private static final long serialVersionUID = 1L;
+       
+    public RepostFindServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
-	public DeletePersonServlet() {
-		super();
-	}
-
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
+		Person person=(Person) request.getSession().getAttribute("person");
 
-		int no = Integer.parseInt(request.getParameter("no"));
-
-		boolean result = personService.deletePerson(no);
-
-		if(!result) {
-			System.out.println("delete Error");
-		}
+		person.setLost(false);
 		
+		boolean result = personService.updatePerson(person.getNo(), person);
+
 		// 设置响应编码，要在out生成之前写
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
+
+		if (!result) { 
+			request.setAttribute("error", "updateError");
+		}
 
 		if("student".equals(((Person) request.getSession().getAttribute("person")).getIdentity())) {
 			response.sendRedirect("student.jsp");
@@ -49,8 +44,7 @@ public class DeletePersonServlet extends HttpServlet implements BasicServlet{
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

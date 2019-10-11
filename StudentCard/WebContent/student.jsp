@@ -16,8 +16,9 @@
 余额：${sessionScope.person.balance }
 <br/>
 身份：${sessionScope.person.identity }
-
-
+<br/>
+目前状态：${sessionScope.person.isLost }
+<br/>
 <a href="shopping.jsp">消费</a>
 <br/>
 <a href="invest.jsp">充值</a>
@@ -25,7 +26,10 @@
 <a href="changeInfo.jsp">更改密码</a>
 <br/>
 <a href="QueryRecordByNo">查看个人消费记录</a>
-
+<br/>
+<a href="ReportLostServlet">挂失</a>
+<br/>
+<a href="RepostFindServlet">激活</a>
 
 </body>
 </html>

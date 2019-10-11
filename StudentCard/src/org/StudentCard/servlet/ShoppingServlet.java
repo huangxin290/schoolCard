@@ -11,7 +11,7 @@ import org.StudentCard.entity.Person;
 import org.StudentCard.entity.Record;
 
 @WebServlet("/ShoppingServlet")
-public class ShoppingServlet extends HttpServlet  implements BasicServlet{
+public class ShoppingServlet extends HttpServlet implements BasicServlet {
 	private static final long serialVersionUID = 1L;
 
 	public ShoppingServlet() {
@@ -24,26 +24,32 @@ public class ShoppingServlet extends HttpServlet  implements BasicServlet{
 
 		request.setCharacterEncoding("utf-8");
 		Float cost = Float.parseFloat(request.getParameter("cost"));
-		Person person=(Person) request.getSession().getAttribute("person");
-		person.setBalance(person.getBalance()-cost);
-		
-		recordService.createRecord(new Record(person.getNo(),"time",(String)request.getParameter("place"),-1*cost,person.getBalance()));
+		Person person = (Person) request.getSession().getAttribute("person");
 
-		boolean result = personService.updatePerson(person.getNo(), person);
+		// 没挂失才能消费
+		if (!person.getisLost()) {
+			person.setBalance(person.getBalance() - cost);
 
-		// 设置响应编码，要在out生成之前写
-		response.setContentType("text/html;charset=utf-8");
-		response.setCharacterEncoding("utf-8");
+			recordService.createRecord(new Record(person.getNo(), "time", (String) request.getParameter("place"),
+					-1 * cost, person.getBalance()));
 
-		if (!result) {
-			request.setAttribute("error", "updateError");
+			boolean result = personService.updatePerson(person.getNo(), person);
+
+			// 设置响应编码，要在out生成之前写
+			response.setContentType("text/html;charset=utf-8");
+			response.setCharacterEncoding("utf-8");
+
+			if (!result) {
+				request.setAttribute("error", "updateError");
+			}
+
 		}
 
-		if("student".equals(((Person) request.getSession().getAttribute("person")).getIdentity())) {
+		if ("student".equals(((Person) request.getSession().getAttribute("person")).getIdentity())) {
 			response.sendRedirect("student.jsp");
-		}else if("administrator".equals(((Person) request.getSession().getAttribute("person")).getIdentity())){
+		} else if ("administrator".equals(((Person) request.getSession().getAttribute("person")).getIdentity())) {
 			response.sendRedirect("administrator.jsp");
-		}else {
+		} else {
 			request.setAttribute("error", "loginError");
 			response.sendRedirect("index.jsp");
 		}
