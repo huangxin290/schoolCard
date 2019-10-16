@@ -8,13 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.StudentCard.entity.Person;
-import org.StudentCard.entity.Record;
 
-@WebServlet("/ChangeInfoServlet")
-public class ChangeInfoServlet extends HttpServlet implements BasicServlet{
+@WebServlet("/ReportLostServlet")
+public class ReportLostServlet extends HttpServlet implements BasicServlet{
 	private static final long serialVersionUID = 1L;
        
-    public ChangeInfoServlet() {
+    public ReportLostServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -22,10 +21,8 @@ public class ChangeInfoServlet extends HttpServlet implements BasicServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		Person person=(Person) request.getSession().getAttribute("person");
-
-		if(person.getPwd().equals(request.getParameter("pwd0")) && request.getParameter("pwd1").equals(request.getParameter("pwd2"))) {
-			person.setPwd(request.getParameter("pwd1"));
-		}
+		
+		person.setLost(true);
 		
 		boolean result = personService.updatePerson(person.getNo(), person);
 

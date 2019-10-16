@@ -16,27 +16,30 @@ public class InvestServlet extends HttpServlet implements BasicServlet{
        
     public InvestServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		Float invest = Float.parseFloat(request.getParameter("invest"));
-		Person person=(Person) request.getSession().getAttribute("person");
-		person.setBalance(person.getBalance()+invest);
+		Person person=(Person)personService.queryPersonByNo(Integer.parseInt(request.getParameter("sno")));
+		
+		//没挂失才能充值
+		if(!person.getisLost()) {
+			person.setBalance(person.getBalance()+invest);
 
-		recordService.createRecord(new Record(person.getNo(),"time",(String)request.getParameter("place"),invest,person.getBalance()));
+			recordService.createRecord(new Record(person.getNo(),"time",(String)request.getParameter("place"),invest,person.getBalance()));
 
-		boolean result = personService.updatePerson(person.getNo(), person);
+			boolean result = personService.updatePerson(person.getNo(), person);
 
-		// 设置响应编码，要在out生成之前写
-		response.setContentType("text/html;charset=utf-8");
-		response.setCharacterEncoding("utf-8");
+			// 设置响应编码，要在out生成之前写
+			response.setContentType("text/html;charset=utf-8");
+			response.setCharacterEncoding("utf-8");
 
-		if (!result) {
-			request.setAttribute("error", "updateError");
+			if (!result) {
+				request.setAttribute("error", "updateError");
+			}
 		}
-
+		
 		if("student".equals(((Person) request.getSession().getAttribute("person")).getIdentity())) {
 			response.sendRedirect("student.jsp");
 		}else if("administrator".equals(((Person) request.getSession().getAttribute("person")).getIdentity())){

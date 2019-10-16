@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,12 +7,8 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>登录：</h1><br/>
-<form action="LoginServlet" method="post">
-账户id：<input type="text" name="no">
-密码：<input type="password" name="pwd">
-<input type="submit" value="登录">
-</form>
 
+账户号：<input type="text" name="sno">
+<a href="RepostFindServlet">激活该账户</a>
 </body>
 </html>

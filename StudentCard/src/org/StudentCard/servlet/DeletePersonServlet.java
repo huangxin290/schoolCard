@@ -31,6 +31,10 @@ public class DeletePersonServlet extends HttpServlet implements BasicServlet{
 
 		boolean result = personService.deletePerson(no);
 
+		if(!result) {
+			System.out.println("delete Error");
+		}
+		
 		// 设置响应编码，要在out生成之前写
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");

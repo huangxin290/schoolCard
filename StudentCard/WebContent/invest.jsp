@@ -9,8 +9,7 @@
 <body>
 
 <form action="InvestServlet" method="post">
-		账户：${sessionScope.person.no } <br />
-		当前余额：${sessionScope.person.balance } <br /> 
+		充值账户：<input type="text" name="sno"> <br />
 		充值金额：<input type="text" name="invest"> <br /> 
 		充值地点： <select name="place">
 			<option value="北一">北一</option>

@@ -8,24 +8,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.StudentCard.entity.Person;
-import org.StudentCard.entity.Record;
 
-@WebServlet("/ChangeInfoServlet")
-public class ChangeInfoServlet extends HttpServlet implements BasicServlet{
+@WebServlet("/RepostFindServlet")
+public class RepostFindServlet extends HttpServlet implements BasicServlet{
 	private static final long serialVersionUID = 1L;
        
-    public ChangeInfoServlet() {
+    public RepostFindServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
-		Person person=(Person) request.getSession().getAttribute("person");
+		Person person=personService.queryPersonByNo(Integer.parseInt(request.getParameter("sno")));
 
-		if(person.getPwd().equals(request.getParameter("pwd0")) && request.getParameter("pwd1").equals(request.getParameter("pwd2"))) {
-			person.setPwd(request.getParameter("pwd1"));
-		}
+		person.setLost(false);
 		
 		boolean result = personService.updatePerson(person.getNo(), person);
 

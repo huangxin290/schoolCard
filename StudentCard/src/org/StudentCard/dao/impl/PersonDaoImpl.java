@@ -27,7 +27,8 @@ public class PersonDaoImpl implements IPersonDao {
 				String pwd = rSet.getString("pwd");
 				Float balance = rSet.getFloat("balance");
 				String identity = rSet.getString("identity");
-				person = new Person(no, name, pwd, balance, identity);
+				boolean isLost=rSet.getBoolean("isLost");
+				person = new Person(no, name, pwd, balance, identity,isLost);
 			}
 			return person;
 		} catch (SQLException e) {
@@ -56,8 +57,9 @@ public class PersonDaoImpl implements IPersonDao {
 				String pwd = rSet.getString("pwd");
 				Float balance = rSet.getFloat("balance");
 				String identity = rSet.getString("identity");
+				boolean isLost=rSet.getBoolean("isLost");
 				if ("student".equals(identity)) {
-					student = new Person(no, name, pwd, balance, identity);
+					student = new Person(no, name, pwd, balance, identity,isLost);
 					students.add(student);
 				}
 			}
@@ -88,7 +90,8 @@ public class PersonDaoImpl implements IPersonDao {
 				String pwd = rSet.getString("pwd");
 				Float balance = rSet.getFloat("balance");
 				String identity = rSet.getString("identity");
-				student = new Person(no, name, pwd, balance, identity);
+				boolean isLost=rSet.getBoolean("isLost");
+				student = new Person(no, name, pwd, balance, identity,isLost);
 				students.add(student);
 			}
 			return students;
@@ -110,8 +113,8 @@ public class PersonDaoImpl implements IPersonDao {
 
 	//添加人
 	public boolean addPerson(Person person) {
-		String sql = "insert into person(no,name,pwd,balance,identity) values(?,?,?,?,?)";
-		Object[] params = { person.getNo(), person.getName(), person.getPwd(), person.getBalance(),person.getIdentity() };
+		String sql = "insert into person(no,name,pwd,balance,identity,isLost) values(?,?,?,?,?)";
+		Object[] params = { person.getNo(), person.getName(), person.getPwd(), person.getBalance(),person.getIdentity(),false };
 		return DBUtil.executeUpdate(sql, params);
 	}
 
@@ -124,8 +127,8 @@ public class PersonDaoImpl implements IPersonDao {
 
 	//更新信息
 	public boolean updatePersonByNo(int no, Person person) {
-		String sql = "update person set name=?,pwd=?,balance=?,identity=?  where no=?";
-		Object[] params = {person.getName(), person.getPwd(), person.getBalance(),person.getIdentity(), no };
+		String sql = "update person set name=?,pwd=?,balance=?,identity=?,isLost=?  where no=?";
+		Object[] params = {person.getName(), person.getPwd(), person.getBalance(),person.getIdentity(),person.getisLost(), no };
 		return DBUtil.executeUpdate(sql, params);
 	}
 
@@ -153,7 +156,8 @@ public class PersonDaoImpl implements IPersonDao {
 				String pwd1 = rSet.getString("pwd");
 				Float balance = rSet.getFloat("balance");
 				String identity = rSet.getString("identity");
-				person = new Person(no, name, pwd1, balance, identity);
+				boolean isLost=rSet.getBoolean("isLost");
+				person = new Person(no, name, pwd1, balance, identity,isLost);
 			}else {//登录失败，用户名或密码错误
 				return null;
 			}

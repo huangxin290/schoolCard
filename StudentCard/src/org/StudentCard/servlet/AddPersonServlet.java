@@ -34,7 +34,7 @@ public class AddPersonServlet extends HttpServlet implements BasicServlet{
 		Float balance = Float.parseFloat(request.getParameter("balance"));
 		String identity = request.getParameter("identity");
 
-		Person person  = new Person(no, name, pwd,balance,identity);
+		Person person  = new Person(no, name, pwd,balance,identity,false);
         System.out.println(person);
 		
 		boolean result = personService.addPerson(person);
@@ -47,7 +47,6 @@ public class AddPersonServlet extends HttpServlet implements BasicServlet{
 			request.setAttribute("error", "addError");
 			System.out.println("addError");
 		}
-//		response.sendRedirect("QueryAllStudentServlet");
 		
 		if("student".equals(((Person) request.getSession().getAttribute("person")).getIdentity())) {
 			response.sendRedirect("student.jsp");

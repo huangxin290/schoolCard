@@ -1,6 +1,9 @@
 package org.StudentCard.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,11 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.StudentCard.entity.Person;
 import org.StudentCard.entity.Record;
 
-@WebServlet("/ChangeInfoServlet")
-public class ChangeInfoServlet extends HttpServlet implements BasicServlet{
+@WebServlet("/QueryAllRecordServlet")
+public class QueryAllRecordServlet extends HttpServlet implements BasicServlet{
 	private static final long serialVersionUID = 1L;
        
-    public ChangeInfoServlet() {
+    public QueryAllRecordServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -22,25 +25,21 @@ public class ChangeInfoServlet extends HttpServlet implements BasicServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		Person person=(Person) request.getSession().getAttribute("person");
-
-		if(person.getPwd().equals(request.getParameter("pwd0")) && request.getParameter("pwd1").equals(request.getParameter("pwd2"))) {
-			person.setPwd(request.getParameter("pwd1"));
-		}
+		List<Record> records=new ArrayList<>();
 		
-		boolean result = personService.updatePerson(person.getNo(), person);
-
+		if(person==null) {
+			response.sendRedirect("index.jsp");
+		}
+		records=recordService.queryAllRecord();
+		
+		request.setAttribute("records",records);
+		
 		// 设置响应编码，要在out生成之前写
 		response.setContentType("text/html;charset=utf-8");
 		response.setCharacterEncoding("utf-8");
 
-		if (!result) { 
-			request.setAttribute("error", "updateError");
-		}
-
-		if("student".equals(((Person) request.getSession().getAttribute("person")).getIdentity())) {
-			response.sendRedirect("student.jsp");
-		}else if("administrator".equals(((Person) request.getSession().getAttribute("person")).getIdentity())){
-			response.sendRedirect("administrator.jsp");
+		if("administrator".equals(person.getIdentity())) {
+			request.getRequestDispatcher("lookAllCost.jsp").forward(request, response);;
 		}else {
 			request.setAttribute("error", "loginError");
 			response.sendRedirect("index.jsp");

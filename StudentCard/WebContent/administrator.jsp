@@ -9,6 +9,8 @@
 </head>
 <body>
 
+
+
 用户：${sessionScope.person.no }
 <br/>
 姓名：${sessionScope.person.name }
@@ -20,20 +22,23 @@
 身份：${sessionScope.person.identity }
 <br/><br/>
 
+<a href="QueryAllPersonServlet">查看所有用户</a>
+<br/>
 <a href="addPerson.jsp">添加用户</a>
 <br/>
 <a href="deletePerson.jsp">注销用户</a>
 <br/>
-<a href="">更改密码</a>
+<form action="RepostFindServlet" method="post">
+<input type="text" name="sno">
+<input type="submit" value="激活账户">
+</form>
 <br/>
-<a href="">查询所有消费记录</a>
+<a href="invest.jsp">给学生充值</a>
 <br/>
-<a href="">查询所有挂失，激活记录</a>
+<a href="changeInfo.jsp">更改密码</a>
 <br/>
-
-
-
-
+<a href="QueryAllRecordServlet">查询所有消费记录</a>
+<br/>
 
 
 </body>

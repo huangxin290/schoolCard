@@ -70,8 +70,7 @@ public class PersonServiceImpl implements IPersonService{
 
 	@Override
 	public List<Person> queryAllPerson() {
-		// TODO 自动生成的方法存根
-		return null;
+		return personDao.queryAllStudent();
 	}
 
 	@Override

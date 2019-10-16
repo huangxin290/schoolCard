@@ -11,6 +11,8 @@
 <form action="ChangeInfoServlet" method="post">
 		账户：${sessionScope.person.no } <br />
 		
+		原密码：<input type="text" name="pwd0">
+		
 		修改后密码：<input type="text" name="pwd1"> <br /> 
 		确认密码：： <input type="text" name="pwd2">
 		<br />
